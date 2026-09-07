@@ -11,6 +11,7 @@ import {
   generateWhyRecommended,
   matchLabels,
 } from "@/lib/matching";
+import { estimateEffort } from "@/lib/effort";
 import type { ReadmeIntelligence, Recommendation } from "@/lib/types";
 
 export async function GET(request: NextRequest) {
@@ -108,6 +109,15 @@ export async function GET(request: NextRequest) {
       experience,
     );
 
+    const effort = estimateEffort({
+      difficulty,
+      flags,
+      comments: issue.comments,
+      issueAge,
+      stars: issue.repo.stars,
+      readme: readmeData,
+    });
+
     return {
       id: `${issue.repo.id}-${issue.number}`,
       issueNumber: issue.number,
@@ -128,6 +138,7 @@ export async function GET(request: NextRequest) {
       readme: readmeData,
       matchScore,
       readinessScore,
+      effort,
     };
   });
 

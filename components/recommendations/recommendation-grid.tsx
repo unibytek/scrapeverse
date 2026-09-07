@@ -1,6 +1,7 @@
 "use client";
 
 import { RecommendationCard } from "./recommendation-card";
+import { TiltCard } from "@/components/ui/tilt-card";
 import type { Recommendation } from "@/lib/types";
 
 interface RecommendationGridProps {
@@ -13,12 +14,13 @@ export function RecommendationGrid({
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
       {recommendations.map((rec, i) => (
-        <RecommendationCard
-          key={rec.id}
-          recommendation={rec}
-          index={i}
-          featured={i === 0}
-        />
+        <TiltCard key={rec.id} maxTilt={1.25}>
+          <RecommendationCard
+            recommendation={rec}
+            index={i}
+            featured={i === 0}
+          />
+        </TiltCard>
       ))}
     </div>
   );

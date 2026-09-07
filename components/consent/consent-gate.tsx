@@ -36,7 +36,7 @@ export function ConsentGate() {
       aria-modal="true"
       aria-label="Updated terms and privacy policy"
     >
-      <div className="animate-modal-in w-full max-w-md rounded-3xl border border-border bg-popover p-8 shadow-[0_32px_80px_-16px_rgb(61_31_43/0.4)]">
+      <div className="animate-modal-in w-full max-w-md rounded-3xl border border-border bg-popover p-8 shadow-[0_32px_80px_-16px_rgb(14_148_136/0.4)]">
         <div className="flex flex-col items-center text-center">
           <Logo />
           <h2 className="font-heading mt-5 text-xl font-bold tracking-tight text-foreground">

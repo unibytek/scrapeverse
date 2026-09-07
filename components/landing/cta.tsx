@@ -14,7 +14,7 @@ export function Cta({ onGetStarted }: CtaProps) {
     <section className="py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#c93663] via-[#d94f7c] to-[#9b8cf0] px-6 py-16 text-center shadow-glow sm:px-12 sm:py-20 dark:from-[#3a2c17] dark:via-[#8a6d3f] dark:to-[#b08d57]">
+          <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#0e9488] via-[#12b5a3] to-[#7c6cf0] px-6 py-16 text-center shadow-glow sm:px-12 sm:py-20 dark:from-[#0d2427] dark:via-[#1d5a52] dark:to-[#2c2450]">
             {/* Decorative shapes */}
             <div
               aria-hidden="true"
@@ -26,7 +26,7 @@ export function Cta({ onGetStarted }: CtaProps) {
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-grid-rose opacity-30"
+              className="absolute inset-0 bg-grid-aurora opacity-30"
               style={{
                 backgroundImage:
                   "linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px)",
@@ -49,7 +49,7 @@ export function Cta({ onGetStarted }: CtaProps) {
                 <Button
                   size="xl"
                   onClick={onGetStarted}
-                  className="w-full bg-white text-primary shadow-[0_12px_32px_-8px_rgb(0_0_0/0.35)] hover:bg-white hover:shadow-[0_16px_40px_-8px_rgb(0_0_0/0.4)] sm:w-auto"
+                  className="w-full bg-white text-primary shadow-[0_12px_32px_-8px_rgb(0_0_0/0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_16px_40px_-8px_rgb(0_0_0/0.4)] hover:brightness-105 active:scale-[0.98] sm:w-auto"
                 >
                   Get started — it&apos;s free
                   <HugeiconsIcon icon={ArrowRight01Icon} />

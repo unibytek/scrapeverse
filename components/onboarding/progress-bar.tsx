@@ -36,7 +36,7 @@ export function ProgressBar({ currentStep, totalSteps }: ProgressBarProps) {
                 className={cn(
                   "flex size-7 items-center justify-center rounded-full border text-[11px] font-semibold transition-all duration-300",
                   isActive &&
-                    "scale-110 border-primary bg-primary text-white shadow-[0_4px_12px_-2px_rgb(201_54_99/0.5)]",
+                    "scale-110 border-primary bg-primary text-white shadow-[0_4px_12px_-2px_rgb(14_148_136/0.5)]",
                   isComplete &&
                     "border-primary/30 bg-primary-soft text-primary",
                   !isActive &&
@@ -63,7 +63,7 @@ export function ProgressBar({ currentStep, totalSteps }: ProgressBarProps) {
         className="h-1.5 w-full overflow-hidden rounded-full bg-primary-soft"
       >
         <div
-          className="h-full rounded-full bg-linear-to-r from-primary to-[#9b8cf0] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="h-full rounded-full bg-linear-to-r from-primary to-brand-end transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
           style={{ width: `${progress}%` }}
         />
       </div>

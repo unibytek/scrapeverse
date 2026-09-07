@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { SESSION_COOKIE } from "./lib/constants";
 
-const publicApiRoutes = ["/api/auth"];
+const publicApiRoutes = ["/api/auth", "/api/scrape/status", "/api/issues"];
 
 const protectedPages = ["/results", "/onboarding"];
 

@@ -1,6 +1,7 @@
 import { Difficulty, MatchCategory, SetupComplexity } from "./constants";
 import type { ProgrammingLanguage } from "@/lib/languages";
 import { ExperienceLevel, Goal, Interest } from "@/lib/user-profile";
+import type { EffortEstimate } from "./effort";
 
 export interface User {
   id: string;
@@ -51,6 +52,7 @@ export interface Recommendation {
   readme: ReadmeIntelligence | null;
   matchScore: MatchScore;
   readinessScore: number;
+  effort: EffortEstimate;
 }
 
 export interface OnboardingPreferences {

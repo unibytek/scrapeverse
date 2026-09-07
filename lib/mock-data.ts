@@ -1,6 +1,8 @@
 import type { Recommendation } from "./types";
+import { deriveLabelFlags } from "./matching";
+import { estimateEffort } from "./effort";
 
-export const mockRecommendations: Recommendation[] = [
+const baseRecommendations: Omit<Recommendation, "effort">[] = [
   {
     id: "1-23178",
     issueNumber: 23178,
@@ -250,3 +252,17 @@ export const mockRecommendations: Recommendation[] = [
     readinessScore: 80,
   },
 ];
+
+export const mockRecommendations: Recommendation[] = baseRecommendations.map(
+  (rec) => ({
+    ...rec,
+    effort: estimateEffort({
+      difficulty: rec.difficulty,
+      flags: deriveLabelFlags(rec.labels),
+      comments: rec.comments,
+      issueAge: 5,
+      stars: rec.repoStars,
+      readme: rec.readme,
+    }),
+  }),
+);

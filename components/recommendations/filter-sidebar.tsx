@@ -52,7 +52,7 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
                 className={cn(
                   "cursor-pointer rounded-full border px-3.5 py-2 text-xs font-semibold transition-all duration-200",
                   isActive
-                    ? "border-primary bg-primary text-white shadow-[0_4px_12px_-4px_rgb(201_54_99/0.5)]"
+                    ? "border-primary bg-primary text-white shadow-[0_4px_12px_-4px_rgb(14_148_136/0.5)]"
                     : "border-border bg-card text-muted-foreground hover:border-primary/35 hover:text-secondary-foreground",
                 )}
               >

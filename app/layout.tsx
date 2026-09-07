@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/lib/auth-context";
 import { ConsentProvider } from "@/lib/consent-context";
 import { ConsentGate } from "@/components/consent/consent-gate";
+import { CursorGlow } from "@/components/ui/cursor-glow";
 import {
   ThemeProvider,
   ThemeInitScript,
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ThemeProvider>
           <AuthProvider>
             <ConsentProvider>
+              <CursorGlow />
               {children}
               <ConsentGate />
             </ConsentProvider>

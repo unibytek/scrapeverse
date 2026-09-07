@@ -77,7 +77,9 @@ const sections = [
 export default function PrivacyPolicyPage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <h1 className="text-4xl font-bold tracking-tight">Privacy Policy</h1>
+      <h1 className="font-heading text-4xl font-bold tracking-tight">
+        Privacy Policy
+      </h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Version {LEGAL_VERSIONS.privacy} · Last updated: September 3, 2026
       </p>
@@ -89,7 +91,9 @@ export default function PrivacyPolicyPage() {
       <div className="mt-10 space-y-8">
         {sections.map((section) => (
           <section key={section.title}>
-            <h2 className="text-xl font-semibold">{section.title}</h2>
+            <h2 className="font-heading text-xl font-semibold">
+              {section.title}
+            </h2>
             <p className="mt-2 leading-relaxed text-muted-foreground">
               {section.body}
             </p>

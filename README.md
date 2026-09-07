@@ -7,6 +7,11 @@ Discover open-source projects that match your interests, skill level, and contri
 - **Marketing Landing Page** — hero, features, how-it-works, testimonials, and FAQ with scroll reveal animations
 - **Smart Onboarding** — 4-step flow to capture your interests, experience, goals, and languages
 - **Personalized Recommendations** — Filtered issue cards with repo details, difficulty levels, and contributor-friendly labels
+- **PR Effort Estimator** — every issue predicts time-to-land, scope, risk, and a step-by-step happy path so you know what you're getting into before you start
+- **Match Radar** — animated polar radar per recommendation visualizing your fit across language, interest, issue quality, repo health, and goals
+- **Contribution Tracker** — save issues and advance them through Watching → Applied → PR sent, with streaks and milestone progression
+- **Contribution Journey Map** — roadmap of milestones (first save → first PR → 3 PRs) with live progress
+- **Live Data Radar** — animated count-up dashboard of scraped repos, open issues, and READMEs analyzed
 - **Explainability** — Every recommendation explains why it was suggested
 - **README Intelligence** — Contribution guide detection, setup complexity, tech stack, and architecture analysis
 - **Filters** — Difficulty and language filters with a friendly empty state
@@ -122,6 +127,9 @@ The project is organized as a Next.js 16 App Router application:
 | GET | `/api/scrape` | Yes | Trigger the full scrape pipeline |
 | GET | `/api/user/preferences` | Yes | Get user preferences |
 | PUT | `/api/user/preferences` | Yes | Update user preferences |
+| GET | `/api/user/saved-issues` | Yes | Get saved issues, stats, and streaks |
+| PUT | `/api/user/saved-issues` | Yes | Save/update an issue (interested / applied / pr-submitted) |
+| DELETE | `/api/user/saved-issues` | Yes | Remove a saved issue |
 
 ## Rate Limiting
 
@@ -151,6 +159,7 @@ The database is PostgreSQL managed via Prisma. It stores:
 - **`ScrapedIssue`** — issues scraped per repo (number, title, URL, labels, state, comments, author).
 - **`ScrapedReadme`** — one-to-one README content per repo with computed intelligence (contribution guide, setup complexity, tech stack, architecture keywords).
 - **`UserConsent`** — records each grant of legal consent (type, granted, version of the document, IP address, timestamp). One row is kept per (user, document, version) so a full consent history is retained; the current/latest consent is found by the latest timestamp.
+- **`SavedIssue`** — per-user tracked issues (organization, repository, issue number, URL, title) with a status progression of `interested` → `applied` → `pr-submitted`. One row per (user, issue); used for the streak counter, journey milestones, and stats.
 
 ## Scraping
 

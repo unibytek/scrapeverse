@@ -4,7 +4,7 @@ interface LoadingScreenProps {
 
 export function LoadingScreen({ label }: LoadingScreenProps) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
+    <div className="flex min-h-dvh items-center justify-center bg-background">
       {label ? (
         <div className="flex flex-col items-center gap-4">
           <div className="size-8 animate-spin rounded-full border-[3px] border-primary-soft border-t-primary" />

@@ -7,6 +7,7 @@ import {
   SparklesIcon,
 } from "@hugeicons/core-free-icons";
 import { ProgressBar } from "./progress-bar";
+import { Logo } from "@/components/landing/logo";
 import { StepInterests } from "./step-interests";
 import { StepExperience } from "./step-experience";
 import { StepGoals } from "./step-goals";
@@ -89,6 +90,10 @@ export function OnboardingFlow({
     <div className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-4 py-12">
       {/* Soft background */}
       <GlowOrbs variant="compact" />
+
+      <div className="mb-8">
+        <Logo />
+      </div>
 
       <ProgressBar
         currentStep={currentStep}

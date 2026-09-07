@@ -35,7 +35,7 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
 
       <div
         ref={dialogRef}
-        className="animate-modal-in relative z-10 max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-3xl border border-border/70 bg-popover shadow-[0_32px_80px_-16px_rgb(61_31_43/0.3)]"
+        className="animate-modal-in relative z-10 max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-3xl border border-border/70 bg-popover shadow-[0_32px_80px_-16px_rgb(14_148_136/0.3)]"
       >
         <div
           aria-hidden="true"

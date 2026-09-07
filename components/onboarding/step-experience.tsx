@@ -34,7 +34,7 @@ export function StepExperience({ selected, onSelect }: StepExperienceProps) {
                 "animate-fade-up flex cursor-pointer items-start gap-4 rounded-2xl border p-5 transition-all duration-200",
                 "hover:-translate-y-0.5 hover:shadow-soft",
                 isSelected
-                  ? "border-primary/50 bg-primary-softer shadow-[0_0_0_1px_rgb(201_54_99/0.25),0_8px_24px_-12px_rgb(201_54_99/0.2)]"
+                  ? "border-primary/50 bg-primary-softer shadow-[0_0_0_1px_rgb(14_148_136/0.25),0_8px_24px_-12px_rgb(14_148_136/0.2)]"
                   : "border-border bg-card hover:border-primary/30",
               )}
             >

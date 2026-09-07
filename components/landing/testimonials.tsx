@@ -21,7 +21,7 @@ const testimonials = [
     name: "Aarav Mehta",
     role: "CS student & first-time contributor",
     initials: "AM",
-    tint: "from-primary to-[#e56b95]",
+    tint: "from-primary to-[#41e6c7]",
   },
   {
     quote:
@@ -29,7 +29,7 @@ const testimonials = [
     name: "Sofia Reyes",
     role: "Backend engineer",
     initials: "SR",
-    tint: "from-[#9b8cf0] to-[#c084fc]",
+    tint: "from-[#8b7cf0] to-[#5eb5f5]",
   },
   {
     quote:
@@ -37,7 +37,7 @@ const testimonials = [
     name: "Daniel Kim",
     role: "Engineering manager",
     initials: "DK",
-    tint: "from-[#f4a26b] to-[#e56b95]",
+    tint: "from-[#41e6c7] to-[#12b5a3]",
   },
 ];
 
@@ -47,10 +47,10 @@ export function Testimonials() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Stats band */}
         <Reveal>
-          <div className="grid grid-cols-2 gap-y-10 rounded-3xl border border-border/80 bg-linear-to-br from-[#fff7fa] via-white to-[#f6f4ff] px-6 py-10 shadow-soft sm:px-12 lg:grid-cols-4 dark:from-[#1a1712] dark:via-[#15151a] dark:to-[#191722]">
+          <div className="grid grid-cols-2 gap-y-10 rounded-3xl border border-border/80 bg-linear-to-br from-[#f0faf7] via-white to-[#f4f1ff] px-6 py-10 shadow-soft sm:px-12 lg:grid-cols-4 dark:from-[#0b1315] dark:via-[#0c1417] dark:to-[#100f1f]">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="font-heading text-3xl font-extrabold tracking-tight text-gradient-rose sm:text-4xl">
+                <p className="font-heading text-3xl font-extrabold tracking-tight text-gradient-aurora sm:text-4xl">
                   {stat.value}
                 </p>
                 <p className="mt-1.5 text-xs font-medium text-muted-foreground sm:text-sm">

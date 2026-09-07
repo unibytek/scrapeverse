@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type CSSProperties } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowUpRight01Icon,
@@ -10,38 +10,15 @@ import {
 } from "@hugeicons/core-free-icons";
 import { Badge } from "@/components/ui/badge";
 import { CheckIcon } from "@/components/ui/check-icon";
+import { EffortMeter } from "./effort-meter";
+import { MatchRadar } from "./match-radar";
+import { TrackButton } from "./track-button";
 import { MATCHED_LABELS } from "@/lib/labels";
 import { languageColorMap } from "@/lib/languages";
-import type { Recommendation, MatchScoreBreakdown } from "@/lib/types";
+import type { Recommendation } from "@/lib/types";
 import { useInView } from "@/lib/use-in-view";
+import { useCountUp } from "@/lib/use-count-up";
 import { cn } from "@/lib/utils";
-
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function useCountUp(target: number, duration = 900): number {
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    let frame: number;
-    const start = performance.now();
-    const tick = (now: number) => {
-      if (prefersReducedMotion()) {
-        setValue(target);
-        return;
-      }
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(eased * target));
-      if (progress < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [target, duration]);
-
-  return value;
-}
 
 interface RecommendationCardProps {
   recommendation: Recommendation;
@@ -77,41 +54,16 @@ const categoryColorMap: Record<string, string> = {
   interest: "text-lavender-foreground",
   issue: "text-mint-foreground",
   project: "text-amber-foreground",
-  goal: "text-secondary-foreground",
+  goal: "text-primary",
 };
 
-function ScoreBreakdownGroup({
-  items,
-  label,
-}: {
-  items: MatchScoreBreakdown[];
-  label: string;
-}) {
-  if (items.length === 0) return null;
-  return (
-    <div className="flex items-start gap-1.5">
-      <span className="w-14 shrink-0 text-[10px] tracking-wider text-muted-foreground/70 uppercase">
-        {label}
-      </span>
-      <div className="flex flex-wrap gap-x-2 gap-y-0.5">
-        {items.map((item) => (
-          <span
-            key={item.label}
-            className="flex items-center gap-0.5 text-[10px]"
-          >
-            <span
-              className={`font-semibold ${categoryColorMap[item.category]}`}
-            >
-              {item.points > 0 ? "+" : ""}
-              {item.points}
-            </span>
-            <span className="text-muted-foreground">{item.label}</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
+const categoryDotMap: Record<string, string> = {
+  language: "bg-sky",
+  interest: "bg-lavender",
+  issue: "bg-mint",
+  project: "bg-amber-soft",
+  goal: "bg-primary",
+};
 
 function CheckItem({ children }: { children: React.ReactNode }) {
   return (
@@ -137,29 +89,23 @@ export function RecommendationCard({
   const displayScore = useCountUp(matchScore.total, 900);
   const barDelay = Math.min(index, 8) * 90;
 
-  const languageItems = matchScore.breakdown.filter(
-    (b) => b.category === "language",
-  );
-  const interestItems = matchScore.breakdown.filter(
-    (b) => b.category === "interest",
-  );
-  const issueItems = matchScore.breakdown.filter((b) => b.category === "issue");
-  const projectItems = matchScore.breakdown.filter(
-    (b) => b.category === "project",
-  );
-  const goalItems = matchScore.breakdown.filter((b) => b.category === "goal");
+  const scoreRows = matchScore.breakdown
+    .map((b) => ({ ...b, label: b.label }))
+    .sort((a, b) => b.points - a.points);
 
   return (
     <article
       ref={ref}
-      style={{ animationDelay: `${Math.min(index, 8) * 70}ms` }}
+      data-visible={inView}
+      style={{ "--card-delay": `${(index % 3) * 90}ms` } as CSSProperties}
       className={cn(
-        "card-shine gloss-border animate-fade-up group relative flex h-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5",
+        "card-shine gloss-border holo-card card-reveal group relative flex h-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1",
         featured
           ? "border-primary/35 bg-gradient-to-b from-primary-softer to-card shadow-glow hover:border-primary/45"
           : "border-border/80 bg-card shadow-soft hover:border-primary/25 hover:shadow-glow",
       )}
     >
+      <div aria-hidden="true" className="holo-spot rounded-2xl" />
       <div className="glass-edge flex flex-1 flex-col p-5">
         {featured && (
           <span className="card-shine relative mb-3 inline-flex w-fit items-center gap-1 overflow-hidden rounded-full bg-gradient-to-r from-primary via-brand-mid to-brand-end px-2.5 py-1 text-[9px] font-bold tracking-[0.14em] whitespace-nowrap text-primary-foreground uppercase shadow-glow animate-fade-in">
@@ -220,15 +166,42 @@ export function RecommendationCard({
           </div>
         </div>
 
-        {matchScore.breakdown.length > 0 && (
-          <div className="mb-4 space-y-1 rounded-xl bg-muted/40 p-3">
-            <ScoreBreakdownGroup items={languageItems} label="Lang" />
-            <ScoreBreakdownGroup items={interestItems} label="Fit" />
-            <ScoreBreakdownGroup items={issueItems} label="Issue" />
-            <ScoreBreakdownGroup items={projectItems} label="Repo" />
-            {goalItems.length > 0 && (
-              <ScoreBreakdownGroup items={goalItems} label="Goal" />
-            )}
+        {scoreRows.length > 0 && (
+          <div className="mb-4 flex items-center gap-3 rounded-xl bg-muted/40 p-3">
+            <MatchRadar
+              breakdown={matchScore.breakdown}
+              size={128}
+              className="w-32 shrink-0 self-center"
+            />
+            <dl className="min-w-0 flex-1 divide-y divide-border/60">
+              <div className="mb-1.5 flex items-center justify-between">
+                <dt className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                  Why this match
+                </dt>
+                <dd className="font-heading text-xs font-bold tabular-nums text-primary">
+                  {matchScore.total} pts
+                </dd>
+              </div>
+              {scoreRows.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex items-center justify-between gap-2 py-1.5 first-of-type:pt-0 last-of-type:pb-0"
+                >
+                  <dt className="flex min-w-0 items-center gap-2 text-[11px] text-muted-foreground">
+                    <span
+                      aria-hidden="true"
+                      className={`size-1.5 shrink-0 rounded-full ${categoryDotMap[item.category] ?? "bg-border"}`}
+                    />
+                    <span className="truncate">{item.label}</span>
+                  </dt>
+                  <dd
+                    className={`shrink-0 text-[11px] font-bold tabular-nums ${categoryColorMap[item.category] ?? "text-foreground"}`}
+                  >
+                    +{item.points}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         )}
 
@@ -279,7 +252,7 @@ export function RecommendationCard({
               className="size-2 rounded-full"
               style={{
                 backgroundColor:
-                  languageColorMap[recommendation.repoLanguage] ?? "#857079",
+                  languageColorMap[recommendation.repoLanguage] ?? "#5e7f79",
               }}
               aria-hidden="true"
             />
@@ -301,6 +274,10 @@ export function RecommendationCard({
           </span>
         </div>
 
+        <div className="mb-4">
+          <EffortMeter effort={recommendation.effort} />
+        </div>
+
         {recommendation.matchedLabels.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-1.5">
             {recommendation.matchedLabels.map((label) => (
@@ -314,6 +291,10 @@ export function RecommendationCard({
             ))}
           </div>
         )}
+
+        <div className="mb-4">
+          <TrackButton recommendation={recommendation} />
+        </div>
 
         <div className="mt-auto rounded-xl bg-secondary/70 p-4">
           <p className="mb-2 text-[10px] font-bold tracking-[0.14em] text-secondary-foreground uppercase">

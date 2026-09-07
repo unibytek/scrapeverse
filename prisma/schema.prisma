@@ -18,6 +18,7 @@ model User {
 
   preferences UserPreferences?
   consents    UserConsent[]
+  savedIssues SavedIssue[]
 }
 
 model UserPreferences {
@@ -92,4 +93,22 @@ model UserConsent {
   createdAt   DateTime @default(now())
 
   @@index([userId, consentType, createdAt])
+}
+
+model SavedIssue {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization String
+  repository   String
+  issueNumber  Int
+  repoUrl      String
+  issueUrl     String
+  issueTitle   String
+  status       String   @default("interested")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([userId, organization, repository, issueNumber])
+  @@index([userId, status])
 }

@@ -81,7 +81,7 @@ export function UserMenu() {
           {user.preferences && (
             <div className="border-t border-border/70 px-4 py-3">
               <p className="mb-1.5 text-[10px] font-bold tracking-[0.14em] text-muted-foreground uppercase">
-                Current setup
+                Current Language setup
               </p>
               <div className="flex flex-wrap gap-1">
                 {user.preferences.languages.slice(0, 3).map((l) => (
