@@ -73,7 +73,11 @@ async function fetchRepoDetails(
   repo: string,
 ): Promise<RepoData | null> {
   const res = await githubFetch(`/repos/${owner}/${repo}`);
-  if (!res || !res.ok) return null;
+  if (!res) {
+    throw new Error("Failed to fetch repo details: No response");
+  } else if (!res.ok) {
+    throw new Error("Failed to fetch repo details: " + (await res.text()));
+  }
 
   const data = await res.json();
 
@@ -94,26 +98,26 @@ async function fetchRepoDetails(
 
 export async function fetchRepoDetailsBatch(
   urls: string[],
-): Promise<RepoData[]> {
-  const results: RepoData[] = [];
-
+): Promise<{ details: RepoData[]; errors: string[] }> {
+  const errors: string[] = [];
   const promise = Promise.all(
     urls.map((url) => {
       const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
-      if (!match) return null;
+      if (!match) {
+        errors.push(`Invalid URL: ${url}`);
+        return null;
+      }
 
       const [, owner, repo] = match;
-      return fetchRepoDetails(owner, repo);
+      return fetchRepoDetails(owner, repo).catch((err) => {
+        errors.push(`Failed to fetch repo details for ${url}: ${err}`);
+        return null;
+      });
     }),
   );
-  const details = await promise;
-  for (const detail of details) {
-    if (detail) {
-      results.push(detail);
-    }
-  }
 
-  return results;
+  const details = (await promise).filter((detail) => detail !== null);
+  return { details, errors };
 }
 
 export async function fetchIssues(

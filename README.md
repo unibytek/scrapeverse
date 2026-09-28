@@ -1,4 +1,5 @@
 # Open Source Opportunity Finder
+[![Scrape](https://github.com/unibytek/scrapeverse/actions/workflows/scrape.yml/badge.svg)](https://github.com/unibytek/scrapeverse/actions/workflows/scrape.yml)
 
 Discover open-source projects that match your interests, skill level, and contribution goals. Get personalized recommendations in under 30 seconds.
 

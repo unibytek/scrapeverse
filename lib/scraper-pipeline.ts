@@ -34,8 +34,11 @@ export async function runScrapePipeline(): Promise<{
     let repoDataList: RepoData[] = [];
 
     if (urls.length > 0) {
-      repoDataList = await fetchRepoDetailsBatch(urls);
+      const res = await fetchRepoDetailsBatch(urls);
+      repoDataList = res.details;
+      errors.push(...res.errors);
     } else {
+      errors.push("BrightData returned 0 repos — falling back to DB");
       const existingRepos = await db.scrapedRepo.findMany();
       repoDataList = existingRepos.map((r) => ({
         githubId: r.id,
@@ -50,23 +53,16 @@ export async function runScrapePipeline(): Promise<{
         default_branch: r.defaultBranch || "main",
         pushed_at: r.pushedAt?.toISOString() || null,
       }));
-      if (repoDataList.length > 0) {
-        errors.push(
-          "BrightData returned 0 repos — falling back to DB (" +
-            repoDataList.length +
-            " repos)",
-        );
-      }
     }
 
     if (repoDataList.length === 0) {
       errors.push("No trending repos discovered and no repos in DB");
       return {
-        discovered: 0,
-        scraped: 0,
-        issuesScraped: 0,
-        readmesScraped: 0,
-        trendingRepos: [],
+        discovered,
+        scraped,
+        issuesScraped,
+        readmesScraped,
+        trendingRepos,
         errors,
       };
     }

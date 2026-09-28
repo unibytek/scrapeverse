@@ -6,7 +6,7 @@ DROP INDEX "UserConsent_userId_consentType_key";
 -- AlterTable
 -- Backfill existing consent rows with the first released version so the
 -- required column can be added even when the table is not empty.
-ALTER TABLE "UserConsent" ADD COLUMN     "version" TEXT NOT NULL DEFAULT '1.0';
+ALTER TABLE "UserConsent" ADD COLUMN     "version" TEXT NOT NULL;
 
 -- CreateIndex
 CREATE INDEX "UserConsent_userId_consentType_createdAt_idx" ON "UserConsent"("userId", "consentType", "createdAt");
